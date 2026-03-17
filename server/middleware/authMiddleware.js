@@ -1,0 +1,15 @@
+import User from "../models/User.js";
+
+//Middleware to check if user is authenticated or not 
+export const authUser = async (req, res, next) => {
+    const {userId} = req.auth()
+    if(!userId){
+        res.json({success:false, message:"User not authorized."})
+    }else{
+        const user = await User.findById(userId)
+        req.user = user
+        next()
+    }
+}
+
+ 
